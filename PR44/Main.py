@@ -6,6 +6,8 @@ from User import UsersDB
 
 def main():
     users_db = UsersDB()
+    clients_db = ClientsDB()
+    employees_db = EmployeesDB()
     admin_db = AdminDB()
 
     while True:
@@ -36,7 +38,20 @@ def main():
             password = input("Введите пароль: ")
             role = input("Введите роль (client, employee, admin): ")
 
-            users_db.register_user(username, password, role)
+            if role == "client" or role == "employee":
+                full_name = input("Введите полное имя: ")
+                email = input("Введите email: ")
+                phone_number = input("Введите номер телефона: ")
+
+            if role == "client":
+                users_db.register_user(username, password, role)
+                clients_db.register_client(username, full_name, email, phone_number)
+            elif role == "employee":
+                users_db.register_user(username, password, role)
+                employees_db.register_employee(username, full_name, email, phone_number)
+            elif role == "admin":
+                users_db.register_user(username, password, role)
+                
             print("Пользователь зарегистрирован!")
 
         elif choice == "3":
@@ -47,6 +62,8 @@ def main():
 
     users_db.close_connection()
     admin_db.close_connection()
+    clients_db.close_connection()
+    employees_db.close_connection()
 
 def client_actions(user_id):
     clients_db = ClientsDB()
