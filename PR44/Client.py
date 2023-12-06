@@ -21,7 +21,11 @@ class ClientsDB:
         ''')
         self.conn.commit()
 
-    def register_client(self, user_id, full_name, email, phone_number, product_id):
+    def register_client(self, username, full_name, email, phone_number, product_id=None):
+        user = self.cursor.execute('SELECT id FROM Users WHERE username=?', (username,)).fetchone()
+        user_id = user[0]
+     
+
         self.cursor.execute('INSERT INTO Clients (user_id, full_name, email, phone_number, product_id) VALUES (?, ?, ?, ?, ?)',
                             (user_id, full_name, email, phone_number, product_id))
         self.conn.commit()
