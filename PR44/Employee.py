@@ -19,7 +19,10 @@ class EmployeesDB:
         ''')
         self.conn.commit()
 
-    def register_employee(self, user_id, full_name, email, phone_number):
+    def register_employee(self, username, full_name, email, phone_number):
+        user = self.cursor.execute('SELECT id FROM Users WHERE username=?', (username,)).fetchone()
+        user_id = user[0]
+
         self.cursor.execute('INSERT INTO Employees (user_id, full_name, email, phone_number) VALUES (?, ?, ?, ?)',
                             (user_id, full_name, email, phone_number))
         self.conn.commit()
